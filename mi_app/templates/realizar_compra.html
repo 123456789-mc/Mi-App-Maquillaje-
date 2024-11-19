@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Compra</title>
+    <link rel="stylesheet" href="{% static 'productos.css' %}">
+    <style>
+        body {
+            background-color: #f9f1f2; /* Color de fondo suave */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px; /* Aumenté el espacio inferior */
+        }
+
+        h1 {
+            color: #333; /* Color del título */
+            font-size: 36px; /* Aumenté el tamaño del título */
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #ff6b81; /* Color rosado pastel */
+            text-decoration: none;
+            font-size: 18px; /* Aumenté el tamaño del enlace */
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+            border-radius: 10px;
+            padding: 40px; /* Aumenté el padding */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 16px; /* Tamaño de texto para las etiquetas */
+            margin-bottom: 10px; /* Espacio inferior */
+            display: block; /* Asegura que cada etiqueta esté en su línea */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px; /* Aumenté el espacio entre los campos */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px; /* Aumenté el tamaño de los campos de entrada */
+        }
+
+        button {
+            background-color: #ff6b81; /* Color rosado pastel */
+            color: white;
+            border: none;
+            padding: 15px; /* Aumenté el padding del botón */
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px; /* Aumenté el tamaño del botón */
+            transition: background-color 0.3s;
+            margin-top: 10px; /* Espacio entre el formulario y el botón */
+        }
+
+        button:hover {
+            background-color: #ff4f63; /* Color rosado más oscuro al pasar el mouse */
+        }
+
+        .mensaje {
+            font-size: 16px; /* Aumenté el tamaño del mensaje */
+            color: #333; /* Texto negro */
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Realizar Compra</h1>
+        <a href="{% url 'inicio' %}">Volver a la tienda</a>
+    </header>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Muestra el formulario como párrafos -->
+        <button type="submit">Comprar</button>
+    </form>
+
+    <div class="mensaje">
+        ¡Gracias por tu compra!<br>
+        Te contactaremos pronto.
+    </div>
+</body>
+</html>

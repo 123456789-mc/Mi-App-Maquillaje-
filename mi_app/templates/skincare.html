@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos de Skincare</title>
+    <link rel="stylesheet" href="{% static 'productos.css' %}">
+</head>
+<body>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background-color: #ff1493;
+        }
+
+        .sidebar {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            display: block;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            padding: 10px 15px;
+        }
+
+        .menu-item {
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #00796b;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 300px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 10px;
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain; /* Ajusta la imagen sin recortar */
+            border-radius: 10px 10px 0 0;
+            transition: transform 0.3s;
+            background-color: #f9f9f9; /* Fondo para evitar áreas vacías */
+        }
+
+        .product h3 {
+            font-size: 1.2em;
+            margin: 10px;
+            color: #333;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 1.3em;
+            color: #00796b;
+            font-weight: bold;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #e91e63;
+        }
+
+        /* Estilos para el formulario de búsqueda */
+        .search-form {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-form button {
+            padding: 10px 15px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-form button:hover {
+            background-color: #004d40;
+        }
+
+    </style>
+
+    <header>
+        <div class="menu">
+            <button id="menu-button" class="menu-button">☰ Menú</button>
+            <div id="sidebar" class="sidebar">
+                <ul>
+                    <li><a href="{% url 'inicio'%}" class="menu-item">Inicio</a></li>
+                    <li><a href="skincare.html" class="menu-item">Skincare</a></li>
+                    <li><a href="{% url 'realizar_compra'%}" class="menu-item">Acerca de</a></li>
+                    <li><a href="#contact" class="menu-item">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h1>Productos de Skincare</h1>
+
+        <!-- Aquí va el formulario de búsqueda -->
+        <div class="search-form">
+            <form method="GET" action="{% url 'buscar_productos' %}">
+                <input type="text" name="q" placeholder="Buscar productos...">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+    </header>
+
+    <div class="container" id="product-list"></div>
+
+    <script>
+        const products = [
+            { name: "Face wash", price: "$150,000 COP", image: "{% static 'imagenes/limpiador.jpg' %}" },
+            { name: "Mascarilla", price: "$70,000 COP", image: "{% static 'imagenes/mascarilla.jpg' %}" },
+            { name: "Clicks Cabello", price: "$50,000 COP", image: "{% static 'imagenes/ganchos.jpg' %}" },
+            { name: "Sérum Antiedad", price: "$120,000 COP", image: "{% static 'imagenes/oleofacial.jpg' %}" },
+            { name: "Vitamina C", price: "$80,000 COP", image: "{% static 'imagenes/vitamina.jpg' %}" },
+            { name: "Lips oils", price: "$85,000 COP", image: "{% static 'imagenes/aceitedelabios.jpg' %}" },
+            { name: "Crema Ojos", price: "$60,000 COP", image: "{% static 'imagenes/crema_ojos.jpg' %}" },
+            { name: "Wipes", price: "$45,000 COP", image: "{% static 'imagenes/wipes.jpg' %}" },
+            { name: "Crema para Ojos", price: "$130,000 COP", image: "{% static 'imagenes/crema_ojos.jpg' %}" },
+            { name: "Toner", price: "$100,000 COP", image: "{% static 'imagenes/toner.jpg' %}" },
+            { name: "Primer", price: "$90,000 COP", image: "{% static 'imagenes/serum.jpg' %}" },
+        ];
+
+        const productList = document.getElementById('product-list');
+
+        products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product');
+
+            productDiv.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p class="price">${product.price}</p>
+                <button class="button">Agregar al carrito</button>
+            `;
+
+            productList.appendChild(productDiv);
+        });
+
+        const menuButton = document.getElementById('menu-button');
+        const sidebar = document.getElementById('sidebar');
+
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

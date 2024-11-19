@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="{% static 'productos.css' %}">
+</head>
+<body>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #00796b;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .search-form button {
+            padding: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-form button:hover {
+            background-color: #e91e63;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 300px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 10px;
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain; /* Ajusta la imagen sin recortar */
+            border-radius: 10px 10px 0 0;
+            transition: transform 0.3s;
+            background-color: #f9f9f9; /* Fondo para evitar áreas vacías */
+        }
+
+        .product h3 {
+            font-size: 1.2em;
+            margin: 10px;
+            color: #333;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 1.3em;
+            color: #00796b;
+            font-weight: bold;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #e91e63;
+        }
+    </style>
+
+    <header>
+        <h1>Resultados de Búsqueda</h1>
+    </header>
+
+    <!-- Formulario de búsqueda -->
+    <div class="search-form">
+        <form method="GET" action="{% url 'buscar_productos' %}">
+            <input type="text" name="q" placeholder="Buscar productos..." required>  <!-- Cambié 'query' a 'q' -->
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <div class="container">
+        {% for producto in resultados %}
+            <div class="product">
+                <img src="{{ producto.image.url }}" alt="{{ producto.nombre }}">  <!-- Cambié 'name' a 'nombre' -->
+                <h3>{{ producto.nombre }}</h3>  <!-- Cambié 'name' a 'nombre' -->
+                <p class="price">{{ producto.precio }}</p>  <!-- Cambié 'price' a 'precio' -->
+                <button class="button">Agregar al carrito</button>
+            </div>
+        {% empty %}
+            <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

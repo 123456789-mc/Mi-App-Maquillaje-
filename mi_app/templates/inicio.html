@@ -1,0 +1,235 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos de Maquillaje</title>
+    <link rel="stylesheet" href="{% static 'productos.css' %}">
+    <style>
+        /* Estilos de skincare.html aplicados */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background-color: #ff1493;
+        }
+
+        .sidebar {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            display: block;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            padding: 10px 15px;
+        }
+
+        .menu-item {
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #00796b;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 300px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 10px;
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px 10px 0 0;
+            transition: transform 0.3s;
+            background-color: #f9f9f9;
+        }
+
+        .product h3 {
+            font-size: 1.2em;
+            margin: 10px;
+            color: #333;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 1.3em;
+            color: #00796b;
+            font-weight: bold;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #e91e63;
+        }
+
+        /* Estilos para el formulario de búsqueda */
+        .search-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .search-container input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-container button {
+            padding: 10px 15px;
+            background-color: #af4790;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-container button:hover {
+            background-color: #004d40;
+        }
+
+        .cart-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="menu">
+            <button id="menu-button" class="menu-button">☰ Menú</button>
+            <div id="sidebar" class="sidebar">
+                <ul>
+                    <li><a href="{% url 'inicio' %}" class="menu-item">Inicio</a></li>
+                    <li><a href="{% url 'skincare' %}" class="menu-item">Skincare</a></li>
+                    <li><a href="{% url 'carrito' %}" class="menu-item">Carrito de Compras</a></li>
+                    <li><a href="#" class="menu-item">Comentarios/Reseñas</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h1>Productos de Maquillaje</h1>
+
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Buscar productos...">
+            <button id="search-button">Buscar</button>
+        </div>
+
+        <div class="cart-container">
+            <button id="cart-button">🛒 Carrito (0)</button>
+        </div>
+    </header>
+
+    <div class="container" id="product-list">
+        {% for producto in productos %}
+            <div class="product">
+                <img src="{% static producto.image %}" alt="{{ producto.title }}">
+                <h3>{{ producto.title }}</h3>
+                <p class="price">${{ producto.precio|floatformat:0 }} COP</p>
+                <form method="POST" action="/agregar-al-carrito/{{ producto.id }}/">
+                    {% csrf_token %}
+                    <button type="submit" class="button">Añadir al carrito</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <script>
+        const menuButton = document.getElementById('menu-button');
+        const sidebar = document.getElementById('sidebar');
+
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
