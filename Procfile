@@ -1,1 +1,1 @@
-web: gunicorn mi_app.wsgi --log-file -
+web: gunicorn basedatosprueba.wsgi:application --log-file -
