@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+import dj_database_url
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -85,17 +88,9 @@ WSGI_APPLICATION = 'basedatosprueba.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mi_app',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',  # Habilitar el modo estricto
-        },
-    }
+     'default': dj_database_url.config(
+        default='postgresql://root:iWw1WFSPdvkVjT2JZH8p8kXOBlcMb1LY@dpg-csuk8l56l47c73fueqsg-a/mi_app'
+    )
 }
 
 # Password validation
