@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ['*']  # O especifica el dominio de Render
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Esto crea una carpeta llamada 'staticfiles' en el directorio base del proyecto
+
 STATICFILES_DIRS = [
     BASE_DIR / 'mi_app/static',  # Cambia 'mi_app' por el nombre de tu aplicación
 ]
