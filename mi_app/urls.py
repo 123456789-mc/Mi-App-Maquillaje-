@@ -12,6 +12,6 @@ urlpatterns = [
     path('eliminar-del-carrito/<int:item_id>/', eliminar_del_carrito, name='eliminar_del_carrito'),
     path('realizar-compra/', realizar_compra, name='realizar_compra'),  # Ruta para realizar compra
     path('compra-exitosa/', compra_exitosa, name='compra_exitosa'),  # Ruta para la página de compra exitosa
-    path('productos/', lista_productos, name='lista_productos'),
+    #path('productos/', lista, name='lista_productos'),
 ]
 

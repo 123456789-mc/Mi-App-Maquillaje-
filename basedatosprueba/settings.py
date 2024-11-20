@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-3_f9$k*=%ah$z2*p4-r)4yk=!yo^&()fsz1z%y&qad*0g17!l@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # O especifica el dominio de Render
+ALLOWED_HOSTS = ['*.render.com']  # Reemplaza esto por tu dominio de Render o los dominios que permitirás
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
