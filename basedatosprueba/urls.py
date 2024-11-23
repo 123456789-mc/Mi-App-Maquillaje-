@@ -8,8 +8,8 @@ from mi_app import views  # Importa las vistas de la aplicación
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Ruta para el panel de administración
-    path('login/', views.login_view, name='login'),  # Ruta para el login
-    path('', views.inicio, name='inicio'),  # Ruta para la página de inicio
+    path('login/', views.login_view, name='login'),  
+    path('', views.inicio, name='inicio'),  
     path('registro/', views.registro_view, name='registro'),  # Ruta para el registro
     path('skincare/', views.skincare, name='skincare'),  # Ruta para skincare
     path('agregar-al-carrito/<int:product_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
