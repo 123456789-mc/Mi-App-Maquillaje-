@@ -2,9 +2,9 @@ from django.urls import path
 from .views import * 
 
 urlpatterns = [
-    path('', inicio, name='inicio'),  # Página de inicio
-    path('registro/', registro_view, name='registro'),  # Ruta de registro
-    path('login/', login_view, name='login'),  # Ruta de login usando login_view
+    path('', registro_view, name='registro'),  # Página de inicio cambia a registro
+    path('login/', login_view, name='login'),  # Ruta de login
+    path('inicio/', inicio, name='inicio'),  # Página de inicio ahora está después del login
     path('skincare/', skincare, name='skincare'),  # Nueva ruta para skincare
     path('buscar/', buscar_productos, name='buscar_productos'),  # Ruta para búsqueda
     path('agregar-al-carrito/<int:producto_id>/', agregar_al_carrito, name='agregar_al_carrito'),  # Ruta para agregar al carrito
@@ -14,4 +14,5 @@ urlpatterns = [
     path('compra-exitosa/', compra_exitosa, name='compra_exitosa'),  # Ruta para la página de compra exitosa
     #path('productos/', lista, name='lista_productos'),
 ]
+
 
