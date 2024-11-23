@@ -59,7 +59,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('registro.html')  
+                return redirect('inicio.html')  
             else:
                 error = "Usuario o contraseña incorrectos."
         else:
