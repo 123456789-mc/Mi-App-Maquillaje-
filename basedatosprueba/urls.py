@@ -1,7 +1,7 @@
 # basedatosprueba/urls.py
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path ,include
 from django.conf import settings  # Importar settings para las configuraciones
 from django.conf.urls.static import static  # Importar para manejar archivos estáticos
 from mi_app import views  # Importa las vistas de la aplicación
@@ -18,6 +18,8 @@ urlpatterns = [
     path('eliminar-del-carrito/<int:item_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('realizar_compra/', views.realizar_compra, name='realizar_compra'),
     path('compras_exitosa/', views.compra_exitosa, name='compras_exitosa'),
+
+    path('', include('mi_app.urls')),
 ]
 
 # Agregar esta línea para servir archivos multimedia (como las imágenes) durante el desarrollo
