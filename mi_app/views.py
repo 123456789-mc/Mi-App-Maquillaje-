@@ -67,7 +67,7 @@ def login_view(request):
     else:
         form = AuthenticationForm()
 
-    return render(request, 'login.html', {'form': form, 'error': error})
+    return render(request, 'inicio', {'form': form, 'error': error})
 
 
 @login_required
